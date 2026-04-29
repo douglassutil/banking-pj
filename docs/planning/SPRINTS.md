@@ -31,7 +31,7 @@
 
 ---
 
-## Sprint 2 — Autenticação ← EM ANDAMENTO
+## Sprint 2 — Autenticação ← COMEÇAR AQUI
 
 **Objetivo:** implementar o fluxo completo de login JWT, do banco ao browser.
 
@@ -40,20 +40,20 @@ o frontend armazena e envia o token em cada requisição.
 
 ### Backend (NestJS)
 
-- [x] `BusinessRuleException`: exceção de negócio com status 422
-- [x] Entidade `User` com campos: id, email, passwordHash, role, companyId, name
-- [x] Módulo `UsersModule`: entidade + service (`findByEmail`) + module exportando UsersService
-- [x] `libs/shared-types` compilado para JS — NestJS resolve via symlink do npm workspace
-- [x] Seed de usuários de teste (1 ADMIN + 1 CARDHOLDER) — `DatabaseModule` + `UserSeedService`
-- [x] Módulo `AuthModule`: login endpoint (`POST /auth/login`)
-- [x] `JwtStrategy` com Passport: valida o token em rotas protegidas
-- [x] `RoleGuard` + decorator `@Roles()`: protege rotas por perfil
-- [x] Spec: `AuthService` — cenários de login válido, senha errada, usuário inexistente
+- [ ] `BusinessRuleException`: exceção de negócio com status 422
+- [ ] Entidade `User` com campos: id, email, passwordHash, role, companyId, name
+- [ ] Módulo `UsersModule`: entidade + service (`findByEmail`) + module exportando UsersService
+- [ ] `libs/shared-types` compilado para JS — NestJS resolve via symlink do npm workspace
+- [ ] Seed de usuários de teste (1 ADMIN + 1 CARDHOLDER) — `DatabaseModule` + `UserSeedService`
+- [ ] Módulo `AuthModule`: login endpoint (`POST /auth/login`)
+- [ ] `JwtStrategy` com Passport: valida o token em rotas protegidas
+- [ ] `RoleGuard` + decorator `@Roles()`: protege rotas por perfil
+- [ ] Spec: `AuthService` — cenários de login válido, senha errada, usuário inexistente
 
 ### Frontend (Angular)
 
-- [x] `CoreModule` criado com `provideHttpClient()`
-- [x] `AuthService` no `CoreModule`: chama `POST /api/auth/login`
+- [ ] `CoreModule` com `provideHttpClient()`
+- [ ] `AuthService` no `CoreModule`: chama `POST /api/auth/login`
 - [ ] `AuthStore` + `AuthQuery` (Akita): armazena `{ token, user, isLoading, error }`
 - [ ] `AuthFacade`: interface pública entre componentes e estado
 - [ ] Interceptor HTTP (`TokenInterceptor`): injeta `Authorization: Bearer <token>`
@@ -101,5 +101,5 @@ o frontend armazena e envia o token em cada requisição.
 |---------|-------------|
 | `- [ ]` | Pendente |
 | `- [x]` | Concluído e testado |
-| `← EM ANDAMENTO` | Sprint atual |
+| `← COMEÇAR AQUI` | Ponto de entrada para quem clonou este starter |
 | `(planejada)` | Escopo definido, não iniciada |

@@ -3,20 +3,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
-import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
     // isGlobal: true faz o ConfigService estar disponível em qualquer módulo
     // sem precisar reimportar o ConfigModule em cada um
     ConfigModule.forRoot({ isGlobal: true }),
-
-    // Registra o módulo de autenticação — disponibiliza POST /auth/login
-    AuthModule,
-
-    // DatabaseModule: executa o seed de usuários na inicialização (apenas em desenvolvimento)
-    DatabaseModule,
 
     // forRootAsync: lê as variáveis via ConfigService, garantindo que o .env
     // foi carregado antes de a conexão ser tentada
