@@ -44,9 +44,9 @@ o frontend armazena e envia o token em cada requisição.
 - [x] Entidade `User` com campos: id, email, passwordHash, role, companyId, name
 - [x] Módulo `UsersModule`: entidade + service (`findByEmail`) + module exportando UsersService
 - [x] `libs/shared-types` compilado para JS — NestJS resolve via symlink do npm workspace
-- [ ] Seed de usuários de teste (1 ADMIN + 1 CARDHOLDER)
-- [ ] Módulo `AuthModule`: login endpoint (`POST /auth/login`)
-- [ ] `JwtStrategy` com Passport: valida o token em rotas protegidas
+- [x] Seed de usuários de teste (1 ADMIN + 1 CARDHOLDER) — `DatabaseModule` + `UserSeedService`
+- [x] Módulo `AuthModule`: login endpoint (`POST /auth/login`)
+- [x] `JwtStrategy` com Passport: valida o token em rotas protegidas
 - [ ] `RoleGuard` + decorator `@Roles()`: protege rotas por perfil
 - [ ] Spec: `AuthService` — cenários de login válido, senha errada, usuário inexistente
 
