@@ -1,0 +1,19 @@
+{
+  "name": "banking-pj",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "libs/*"
+  ],
+  "scripts": {
+    "db:up":         "docker compose up -d",
+    "db:down":       "docker compose down",
+    "db:reset":      "docker compose down -v && docker compose up -d",
+    "dev:api":       "npm run dev --workspace=apps/api",
+    "dev:web":       "npm run dev --workspace=apps/web",
+    "test:api":      "npm run test --workspace=apps/api",
+    "test:web":      "npm run test --workspace=apps/web",
+    "test:coverage": "npm run test:coverage --workspace=apps/web"
+  }
+}

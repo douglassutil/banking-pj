@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(nest new *)",
+      "PowerShell(nest --version 2>&1)",
+      "PowerShell(npm install -g @nestjs/cli 2>&1)"
+    ]
+  }
+}

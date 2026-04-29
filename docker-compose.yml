@@ -1,0 +1,32 @@
+services:
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: banking-pj-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB:       banking_pj
+      POSTGRES_USER:     banking_user
+      POSTGRES_PASSWORD: banking_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U banking_user -d banking_pj"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  adminer:
+    image: adminer:latest
+    container_name: banking-pj-adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
