@@ -47,12 +47,13 @@ o frontend armazena e envia o token em cada requisição.
 - [x] Seed de usuários de teste (1 ADMIN + 1 CARDHOLDER) — `DatabaseModule` + `UserSeedService`
 - [x] Módulo `AuthModule`: login endpoint (`POST /auth/login`)
 - [x] `JwtStrategy` com Passport: valida o token em rotas protegidas
-- [ ] `RoleGuard` + decorator `@Roles()`: protege rotas por perfil
-- [ ] Spec: `AuthService` — cenários de login válido, senha errada, usuário inexistente
+- [x] `RoleGuard` + decorator `@Roles()`: protege rotas por perfil
+- [x] Spec: `AuthService` — cenários de login válido, senha errada, usuário inexistente
 
 ### Frontend (Angular)
 
-- [ ] `AuthService` no `CoreModule`: chama `POST /api/auth/login`
+- [x] `CoreModule` criado com `provideHttpClient()`
+- [x] `AuthService` no `CoreModule`: chama `POST /api/auth/login`
 - [ ] `AuthStore` + `AuthQuery` (Akita): armazena `{ token, user, isLoading, error }`
 - [ ] `AuthFacade`: interface pública entre componentes e estado
 - [ ] Interceptor HTTP (`TokenInterceptor`): injeta `Authorization: Bearer <token>`

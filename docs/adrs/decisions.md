@@ -150,3 +150,94 @@ Facilita encontrar todos os pontos de erro de negócio com um grep.
 **Consequência:** Erros de negócio são sempre 422. Erros de autenticação são
 401/403 (tratados pelos Guards). Erros de validação de DTO são 400 (tratados
 pelo ValidationPipe global).
+
+---
+
+## ADR 009 — Guards separados: `JwtAuthGuard` + `RoleGuard`
+
+**Status:** Aceito
+
+**Contexto:** NestJS permite usar `@UseGuards(AuthGuard('jwt'))` inline em cada
+rota. Poderíamos também criar um único guard que valida token E role ao mesmo
+tempo.
+
+**Decisão:** Dois guards separados e nomeados: `JwtAuthGuard` (autenticação) e
+`RoleGuard` (autorização). Sempre aplicados nessa ordem.
+
+**Razão:** Responsabilidade única — cada guard faz uma coisa só. `JwtAuthGuard`
+responde "você está autenticado?" e `RoleGuard` responde "você tem permissão?".
+Separar também permite proteger rotas apenas com JWT (sem restrição de role) sem
+duplicar lógica. A ordem importa: autenticação antes de autorização — sem
+`req.user` populado, o `RoleGuard` não tem o que verificar.
+
+**Consequência:** Toda rota protegida usa `@UseGuards(JwtAuthGuard, RoleGuard)`.
+Rotas restritas a um perfil adicionam `@Roles(UserRole.ADMIN)` ou
+`@Roles(UserRole.CARDHOLDER)`. Rotas sem `@Roles()` permitem qualquer
+usuário autenticado. Ambos os guards são exportados pelo `AuthModule` para uso
+em outros módulos.
+
+---
+
+## ADR 010 — `moduleResolution: "node16"` no backend (TypeScript 5.9)
+
+**Status:** Aceito
+
+**Contexto:** O TypeScript 5.9 deprecou `moduleResolution: "node"` (alias para
+`node10`). O mecanismo de supressão (`ignoreDeprecations: "6.0"`) só se torna
+válido quando o TypeScript 6 for lançado — em 5.9.x, essa string é rejeitada
+como valor inválido, criando um impasse.
+
+**Decisão:** Migrar para `module: "node16"` + `moduleResolution: "node16"`.
+
+**Razão:** É a forma suportada de resolver o conflito sem dependência de versão
+futura. Como o `package.json` da API não tem `"type": "module"`, o compilador
+ainda trata arquivos `.ts` como CommonJS — o output gerado é idêntico ao anterior.
+
+**Consequência:** `tsconfig.json` do backend usa `node16` para ambas as opções.
+A mudança não afeta o comportamento em runtime. Se no futuro migrarmos para ESM,
+o tsconfig já estará no modo correto.
+
+---
+
+## ADR 011 — `paths` do Angular aponta para `dist/` da lib, não para `src/`
+
+**Status:** Aceito
+
+**Contexto:** O `tsconfig.json` do Angular (`apps/web`) tinha `paths` apontando
+para `libs/shared-types/src/index.ts` (arquivo TypeScript fonte). O TypeScript 5.9
+passou a exigir que todos os arquivos fonte referenciados por `paths` estejam dentro
+do `rootDir`. Como `libs/` está fora do `rootDir` de `apps/web`, o compilador
+rejeitava o import.
+
+**Decisão:** Mudar o `paths` para apontar para `libs/shared-types/dist/index`
+(sem extensão — o TypeScript resolve para `.d.ts`).
+
+**Razão:** Arquivos `.d.ts` são declarações de tipo, não arquivos fonte. O TypeScript
+os lê para tipagem sem incluí-los na compilação, portanto não precisam estar dentro
+do `rootDir`. O `dist/` já existe porque o `shared-types` compila antes de ser
+consumido.
+
+**Consequência:** Ao modificar `libs/shared-types/src/`, é necessário rodar
+`npm run build` dentro de `libs/shared-types/` para que o `dist/` fique atualizado
+e o Angular veja as mudanças.
+
+---
+
+## ADR 012 — `rootDir` explícito obrigatório no TypeScript 5.9
+
+**Status:** Aceito
+
+**Contexto:** O TypeScript 5.9 deixou de inferir `rootDir` silenciosamente e passou
+a exigir que ele seja declarado explicitamente quando `outDir` está configurado.
+Isso afetou três arquivos: `apps/api/tsconfig.json` (resolvido com `node16`),
+`apps/web/tsconfig.json`, `apps/web/tsconfig.app.json` e
+`libs/shared-types/tsconfig.json`.
+
+**Decisão:** Adicionar `"rootDir": "src"` em cada `tsconfig.json` que compila
+arquivos fonte.
+
+**Razão:** O valor já era inferido como `"src"` antes — a mudança é apenas tornar
+explícito o que o TypeScript já assumia. Nenhum comportamento de compilação muda.
+
+**Consequência:** Qualquer novo `tsconfig.json` criado no projeto que use `outDir`
+deve declarar `rootDir` explicitamente.

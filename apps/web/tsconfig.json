@@ -14,8 +14,9 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "preserve",
+    "rootDir": "src",
     "paths": {
-      "@banking-pj/shared-types": ["../../libs/shared-types/src/index.ts"]
+      "@banking-pj/shared-types": ["../../libs/shared-types/dist/index"]
     }
   },
   "angularCompilerOptions": {

@@ -6,6 +6,8 @@ import { UsersModule } from '../users/users.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { RoleGuard } from './guards/role.guard';
 
 @Module({
   imports: [
@@ -30,6 +32,9 @@ import { JwtStrategy } from './jwt.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  // JwtAuthGuard e RoleGuard são exportados para que outros módulos
+  // (como CardsModule, UsersModule) possam usá-los sem reimportar o AuthModule inteiro.
+  providers: [AuthService, JwtStrategy, JwtAuthGuard, RoleGuard],
+  exports: [JwtAuthGuard, RoleGuard],
 })
 export class AuthModule {}

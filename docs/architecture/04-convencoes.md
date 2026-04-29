@@ -129,6 +129,34 @@ export class CardsModule {}
 
 ---
 
+## Guards no NestJS (padrão deste projeto)
+
+Todo endpoint protegido usa dois guards em sequência — autenticação antes de autorização:
+
+```typescript
+@UseGuards(JwtAuthGuard, RoleGuard)   // qualquer usuário autenticado
+@Get('me')
+me(@Req() req) { return req.user; }
+
+@UseGuards(JwtAuthGuard, RoleGuard)
+@Roles(UserRole.ADMIN)                 // somente ADMIN
+@Get('admin-only')
+adminOnly() { ... }
+```
+
+**Regra de uso:**
+| Cenário | Decorators |
+|---------|-----------|
+| Rota pública (sem autenticação) | nenhum guard |
+| Rota para qualquer usuário logado | `@UseGuards(JwtAuthGuard, RoleGuard)` |
+| Rota exclusiva para ADMIN | `@UseGuards(JwtAuthGuard, RoleGuard)` + `@Roles(UserRole.ADMIN)` |
+| Rota exclusiva para CARDHOLDER | `@UseGuards(JwtAuthGuard, RoleGuard)` + `@Roles(UserRole.CARDHOLDER)` |
+
+O `@Roles()` sem argumentos (ou ausente) significa "qualquer role é aceita".
+`req.user` fica disponível em qualquer rota com `JwtAuthGuard` ativo.
+
+---
+
 ## Separação Smart vs Dumb Components
 
 **Smart Component** (também chamado Container):

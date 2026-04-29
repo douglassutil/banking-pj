@@ -51,6 +51,38 @@ Autentica o usuário e retorna tokens JWT.
 
 ---
 
+### GET /auth/me
+
+Retorna os dados do usuário autenticado extraídos do token JWT.
+
+**Headers:** `Authorization: Bearer <token>`
+
+**Response 200:**
+```json
+{
+  "id": "uuid",
+  "email": "admin@banking.dev",
+  "role": "ADMIN",
+  "companyId": "uuid"
+}
+```
+
+**Response 401 — sem token ou token inválido:** `{ "statusCode": 401 }`
+
+---
+
+### GET /auth/admin-only *(rota de exemplo/diagnóstico)*
+
+Rota exclusiva para ADMIN — demonstra o uso combinado de `JwtAuthGuard` + `RoleGuard` + `@Roles()`.
+
+**Headers:** `Authorization: Bearer <token>`
+
+**Response 200 (ADMIN):** `{ "message": "Você é ADMIN — acesso permitido." }`
+
+**Response 403 (CARDHOLDER):** `{ "statusCode": 403, "message": "Forbidden" }`
+
+---
+
 ### POST /auth/logout *(Sprint 3)*
 
 Invalida o token no servidor (quando implementarmos refresh token).
