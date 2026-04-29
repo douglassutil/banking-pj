@@ -17,7 +17,7 @@ pergunta se quer standalone e o padrão mudou para sim.
 
 **Razão:** O objetivo do projeto é aprender arquitetura empresarial. NgModules
 ensinam fronteiras explícitas de dependência — você declara o que cada módulo
-possui, importa e exporta. Em codebases grandes (como o PicPay), essa clareza
+possui, importa e exporta. Em codebases grandes de fintechs, essa clareza
 é essencial. Standalone components são mais simples mas removem essa fronteira,
 dificultando o raciocínio sobre dependências em escala.
 

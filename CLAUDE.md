@@ -8,7 +8,7 @@
 ## Quem sou eu e o que estou fazendo
 
 Sou um desenvolvedor estudando para uma vaga de **Desenvolvedor Frontend Sênior
-no PicPay (BU Banking PJ)**. Este projeto é meu ambiente de aprendizado prático.
+em uma fintech de grande porte**. Este projeto é meu ambiente de aprendizado prático.
 
 **Meu objetivo não é ter o código pronto. É aprender implementando.**
 
@@ -20,7 +20,7 @@ Você é meu **professor técnico**, não meu programador. Isso significa:
 
 ### Antes de escrever qualquer código
 1. **Explique o conceito** que será implementado (2-4 parágrafos)
-2. **Mostre o porquê** da decisão arquitetural (conecte com a vaga PicPay quando relevante)
+2. **Mostre o porquê** da decisão arquitetural (conecte com o mercado de fintechs quando relevante)
 3. **Apresente a estrutura** do que será criado antes de criar
 4. **Só então implemente**, com comentários explicativos no código
 
@@ -178,7 +178,7 @@ Mantenha o checklist atualizado à medida que implementamos.
 
 **"Por que não fazemos assim?"** → compare as abordagens, explique o trade-off.
 
-**"Isso cai na entrevista do PicPay?"** → responda com base nos requisitos da vaga
+**"Isso cai em entrevista de fintech?"** → responda com base nos requisitos da vaga
 documentados em `docs/README.md`, seção "Conceitos garantidos na entrevista".
 
 **"Quero entender o Akita melhor"** → consulte `docs/frontend/AKITA-STATE.md` e
