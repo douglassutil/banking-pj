@@ -6,7 +6,7 @@ import { Observable } from "rxjs";
 interface LoginResponse {
   accessToken: string;
   user: {
-    id: number;
+    id: string;
     email: string;
     name: string;
     role: UserRole;
