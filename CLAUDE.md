@@ -49,6 +49,7 @@ Para cada trecho de código a implementar, siga **sempre** esta sequência:
 - Nunca criar arquivo sem antes descrever o que ele fará
 - Nunca resolver um erro sem explicar a causa raiz
 - Nunca pular para a próxima feature se a atual não tiver teste
+- Nunca corrigir um erro no arquivo diretamente sem que o aluno solicite — ao receber um erro: ler o arquivo, identificar a causa raiz, explicar o conceito por trás do erro, mostrar a solução em código e perguntar "Posso fazer essa alteração ou você prefere corrigir?"
 
 ### Quando eu perguntar "por que?"
 Responda com: conceito → impacto prático → exemplo no projeto → conexão com a vaga.
