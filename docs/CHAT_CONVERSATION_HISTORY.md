@@ -1,184 +1,121 @@
-# Conversation History — Training Platform Design and Branch Strategy
+# Conversation History — Real Design Discussion Log
 
-This document consolidates the key decisions, architectural reasoning, and evolution of the training platform discussed during the design sessions.
+This document preserves the REAL conversation flow and reasoning that led to the current architecture of the training platform.
 
-The purpose of this file is to preserve context for future reference, onboarding, and architectural continuity.
+Unlike a summary, this file captures the actual evolution of decisions, doubts, validations, and refinements made during the design process.
 
----
-
-# Phase 1 — Vision Definition
-
-Initial objective:
-
-Create a structured training platform where students learn software development using AI-assisted guidance.
-
-Key goals defined:
-
-- Teach real-world development workflow
-- Use modern stack
-- Provide structured learning progression
-- Support beginner-level developers
-- Provide deployable production experience
-
-Initial stack decision:
-
-React
-
-Vite
-
-TypeScript
-
-NestJS
-
-PostgreSQL
-
-Docker
+The goal is to maintain architectural memory and prevent loss of context over time.
 
 ---
 
-# Phase 2 — Training Model Definition
+# Context — Initial Situation
 
-The system evolved from a simple project into a full training program.
+The project started as a technical system but evolved into a structured learning platform intended to train beginner and intermediate developers using real-world practices.
 
-Core components created:
+The focus shifted from building software to building a **training infrastructure**.
 
-Training schedule
-
-Student guide
-
-Mentor guide
-
-Evaluation checklist
-
-Sprint-based task system
-
-Definition of Done
-
-Code review checklist
+The user identified that different levels of developers require different starting points and that the repository must support multiple learning paths.
 
 ---
 
-# Phase 3 — Sprint-Based Learning Structure
+# Core Concern Raised
 
-The training program was defined using progressive sprints.
+The user asked to review whether the repository branches were correctly structured to support:
 
-Sprint sequence:
+- Different learning levels
+- Different technology stacks
+- Different training contexts
+- Long-term scalability
 
-Sprint 11 — Accounts UI
-
-Sprint 12 — Transactions
-
-Sprint 13 — Feedback
-
-Sprint 14 — Validation
-
-Sprint 15 — Pagination
-
-Sprint 16 — Filters
-
-Sprint 17 — Custom Hooks
-
-Sprint 18 — Context
-
-Sprint 19 — RBAC
-
-Sprint 20 — Logging
-
-Sprint 21 — Security
-
-Sprint 22 — Deploy
-
-Sprint 23 — CI/CD
-
-Purpose of the sprint model:
-
-Simulate real development workflow.
-
----
-
-# Phase 4 — Training Operationalization
-
-The system transitioned from documentation into an operational training platform.
-
-Operational artifacts created:
-
-TRAINING_SCHEDULE.md
-
-STUDENT_GUIDE.md
-
-MENTOR_GUIDE.md
-
-EVALUATION_CHECKLIST.md
-
-BRANCH_STRATEGY.md
-
----
-
-# Phase 5 — Branch Strategy Evolution
-
-The repository required separation of contexts due to multiple stacks and learning levels.
-
-Key architectural decision:
-
-Branches represent learning environments.
-
----
-
-# Current Branch Model
+At that time, the repository contained only two branches:
 
 main
 
-Reference implementation.
+starter
 
-Used to test architecture and patterns.
+The user recognized that multiple levels were being proposed and that branch separation might become necessary.
 
-Currently using Angular for experimentation.
+This triggered the architectural discussion about branch strategy.
 
 ---
+
+# Key Decision — Keep Reference Code in main
+
+The user explicitly decided:
+
+Keep the reference implementation in the main branch.
+
+Reasoning:
+
+The project is still evolving.
+
+The main branch is being used to test architectural patterns using Angular.
+
+The goal is experimentation and validation, not stability yet.
+
+Therefore:
+
+main represents a living reference implementation.
+
+Not a frozen production system.
+
+---
+
+# Key Decision — Rename starter Branch
+
+The user proposed renaming the existing starter branch to:
 
 starter-angular-pleno
 
-Starting point for developers with prior experience.
+Reasoning:
 
-Focus:
+This branch is intended for developers who already have some experience.
 
-Architecture
+The goal is to teach architecture and structured development using Angular.
 
-Best practices
-
-System structure
+The branch represents a starting point for learning — not the reference implementation.
 
 ---
+
+# Key Decision — Create New Beginner Branch
+
+The user proposed creating a new branch:
 
 starter-react-beginner
 
-Starting point for intern-level developers.
+Purpose:
 
-Focus:
+Provide a simplified starting point for intern-level developers.
 
-Framework fundamentals
+Characteristics:
 
-Development workflow
+Minimal setup
 
-Guided learning
+Guided learning structure
 
----
+Reduced complexity
 
-experimental
+Clear progression
 
-Safe environment for testing new ideas.
-
-Examples:
-
-New frameworks
-
-New architecture
-
-New tools
+This branch will serve as the primary entry point for beginners.
 
 ---
 
-# Branch Naming Convention
+# Insight — Branches Represent Learning Context
+
+A major architectural principle emerged during the discussion:
+
+Branches are not just code variations.
+
+Branches represent learning environments.
+
+This became the foundation for the branch strategy.
+
+---
+
+# Naming Convention Established
+
+The conversation defined a consistent naming pattern:
 
 starter-<stack>-<level>
 
@@ -192,88 +129,132 @@ starter-react-intermediate
 
 starter-angular-beginner
 
----
-
-# Core Architectural Principles
-
-Branches represent learning context.
-
-Training environments must remain stable.
-
-Reference implementation may evolve.
-
-Experiments must be isolated.
+This pattern ensures predictability and scalability.
 
 ---
 
-# Current System Architecture Status
+# Decision — Add Experimental Branch
 
-Training model:
+The need for experimentation was identified.
 
-Fully defined
+A dedicated branch type was introduced:
 
-Branch strategy:
+experimental
 
-Defined
+Purpose:
 
-Documentation system:
+Test new tools
 
-Established
+Evaluate architecture
 
-Learning progression:
+Try new stacks
 
-Structured
+Prototype features
 
-Deployment workflow:
-
-Planned
-
-CI/CD workflow:
-
-Defined
+This prevents instability in training branches.
 
 ---
 
-# Strategic Direction
+# Architectural Clarification — Separation of Responsibilities
 
-Short-term goals:
+Each branch type was assigned a clear role.
+
+main
+
+Reference implementation
+
+Architecture experimentation
+
+Active development
+
+---
+
+starter-<stack>-<level>
+
+Training environment
+
+Stable starting point
+
+Structured learning path
+
+---
+
+experimental
+
+Testing environment
+
+Unstable by design
+
+Exploration space
+
+---
+
+student-<name> (optional future)
+
+Individual learner workspace
+
+Temporary branch
+
+Practice environment
+
+---
+
+# Important Design Philosophy
+
+The repository is not organized by feature.
+
+It is organized by learning context.
+
+This is a fundamental architectural choice.
+
+---
+
+# Strategic Direction Identified
+
+Short-term focus:
 
 Stabilize starter branches
 
-Validate training flow
+Validate training methodology
 
-Run pilot student
+Run first student pilot
 
 ---
 
-Medium-term goals:
+Medium-term focus:
 
 Support multiple stacks
 
-Add intermediate level
+Support multiple learning levels
 
 Improve automation
 
 ---
 
-Long-term goals:
+Long-term vision:
 
-Create scalable training platform
+Create a scalable developer training platform
 
-Support multiple learning tracks
+Support onboarding workflows
 
-Enable enterprise onboarding
+Enable structured skill progression
 
 ---
 
-# Key Insight
+# Key Realization
 
-This repository is not just a codebase.
+The repository is no longer just a software project.
 
-It is a training infrastructure.
+It has become:
+
+A training system
+
+A learning framework
+
+A developer formation pipeline
 
 ---
 
 # Maintenance Rule
 
-This document should be updated whenever major architectural or pedagogical decisions are made.
+This document must be updated whenever a major architectural or pedagogical decision is made.
