@@ -1,0 +1,24 @@
+// Prisma Schema — Beginner Track
+// This file defines your database structure in a simple and readable way
+
+// IMPORTANT:
+// This project uses Prisma (NOT TypeORM)
+// Prisma is easier for beginners and provides better type safety
+
+// Learn more: https://www.prisma.io/docs
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// First model used in the training
+model Message {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+}
