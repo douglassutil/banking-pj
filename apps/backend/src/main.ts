@@ -4,6 +4,10 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors({
+    origin: 'http://localhost:5173',
+  });
+
   const port = process.env.PORT || 3000;
 
   await app.listen(port);
@@ -12,12 +16,3 @@ async function bootstrap() {
 }
 
 bootstrap();
-
-/**
- * TODO (Student Task):
- *
- * 1. Create your first controller
- * 2. Implement GET /health endpoint
- * 3. Return: { status: 'ok' }
- *
- */
