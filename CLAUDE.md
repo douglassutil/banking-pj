@@ -40,8 +40,19 @@ Guide the student step-by-step through building a full stack application using:
 
 ## What NOT to Use
 
-- Angular concepts (NgModules, decorators from Angular, etc.)
+- Angular (NgModules, decorators, services — this is a React project)
+- TypeORM — this project uses Prisma exclusively
 - Advanced patterns not yet introduced in sprints
+
+## Project Structure
+
+```
+apps/
+  backend/   ← NestJS + Prisma (port 3000)
+  frontend/  ← React + Vite (port 5173)
+docs/
+  sprints/   ← follow sprint order, do not skip
+```
 
 ---
 
