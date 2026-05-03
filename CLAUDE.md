@@ -73,3 +73,15 @@ Help the student understand how to:
 - Break problems into small steps
 - Avoid overwhelming the student
 
+---
+
+## Sprint Flow
+
+Start here:
+[docs/sprints/sprint-0-run-the-system.md](docs/sprints/sprint-0-run-the-system.md)
+
+Full sprint order:
+[docs/sprints/README.md](docs/sprints/README.md)
+
+DO NOT skip steps. DO NOT jump ahead in the sprint sequence.
+

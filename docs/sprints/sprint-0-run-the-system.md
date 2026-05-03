@@ -50,6 +50,8 @@ npm install
 
 ### 4) Copy environment variables
 
+Run this at the **root of the project** (not inside apps/):
+
 ```bash
 cp .env.example .env
 ```
@@ -67,8 +69,10 @@ Expected result:
 
 ### 6) Start the backend
 
+Open a new terminal and run:
+
 ```bash
-npm run dev:api
+npm run dev:backend
 ```
 
 Expected result:
@@ -81,7 +85,7 @@ Expected result:
 Open a new terminal and run:
 
 ```bash
-npm run dev:web
+npm run dev:frontend
 ```
 
 Expected result:

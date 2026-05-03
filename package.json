@@ -11,6 +11,8 @@
     "db:reset": "docker compose down -v && docker compose up -d",
     "dev:backend": "npm run dev --workspace=apps/backend",
     "dev:frontend": "npm run dev --workspace=apps/frontend",
-    "dev": "npm run db:up"
+    "dev": "npm run db:up",
+    "migrate": "npm run prisma:migrate --workspace=apps/backend",
+    "generate": "npm run prisma:generate --workspace=apps/backend"
   }
 }

@@ -16,9 +16,5 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// First model used in the training
-model Message {
-  id        Int      @id @default(autoincrement())
-  content   String
-  createdAt DateTime @default(now())
-}
+// Models will be created during the sprints.
+// Start with: docs/sprints/sprint-0-run-the-system.md

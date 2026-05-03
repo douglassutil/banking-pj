@@ -32,7 +32,7 @@ npm run db:up
 ### 4. Rodar backend
 
 ```bash
-npm run dev:api
+npm run dev:backend
 ```
 
 Backend disponível em:
