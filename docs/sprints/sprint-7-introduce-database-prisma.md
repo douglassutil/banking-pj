@@ -29,78 +29,73 @@ Connect the application to a database and persist data using Prisma ORM.
 
 ## Step-by-Step Tasks
 
-### 1) Install Prisma
+### 1) Understand the setup
 
-```bash
-npm install prisma @prisma/client
-npx prisma init
-```
+Prisma is already configured in this project. You do NOT need to install or initialize it.
 
----
-
-### 2) Configure database connection
-
-Open:
+Open the existing schema file:
 
 ```text
-prisma/schema.prisma
+apps/backend/prisma/schema.prisma
 ```
 
-Set the datasource using `DATABASE_URL`.
+You will see the datasource and generator already defined.
+Your task is to define your first model.
 
 ---
 
-### 3) Create a model
+### 2) Create a model
 
-Define a simple model, for example:
+Add the following model to `schema.prisma`:
 
-```text
-Message
-```
-
-Fields:
-
-- id
-- content
-- createdAt
-
----
-
-### 4) Run migration
-
-```bash
-npx prisma migrate dev --name init
-```
-
----
-
-### 5) Generate Prisma client
-
-```bash
-npx prisma generate
-```
-
----
-
-### 6) Use Prisma in service
-
-Inject Prisma into your service.
-
-Save incoming message data into the database.
-
----
-
-### 7) Test persistence
-
-Send request:
-
-```json
-{
-  "message": "hello"
+```prisma
+model Account {
+  id        Int      @id @default(autoincrement())
+  name      String
+  balance   Float
+  createdAt DateTime @default(now())
 }
 ```
 
-Verify that data is stored in the database.
+This represents a bank account — it fits the domain of this application.
+
+---
+
+### 3) Run migration
+
+From the project root:
+
+```bash
+npm run migrate
+```
+
+This creates the table in your database.
+
+---
+
+### 4) Generate Prisma client
+
+```bash
+npm run generate
+```
+
+This regenerates the typed client so TypeScript knows about your new model.
+
+---
+
+### 5) Use Prisma in service
+
+Inject Prisma into your service.
+
+Save incoming account data into the database.
+
+---
+
+### 6) Test persistence
+
+Send a POST request to create an account.
+
+Verify that the data is stored in the database using Adminer (http://localhost:8080).
 
 ---
 
@@ -113,11 +108,10 @@ Verify that data is stored in the database.
 
 ## Verification Checklist
 
-- [ ] Prisma installed
-- [ ] Database connected
-- [ ] Model created
-- [ ] Migration executed
-- [ ] Data saved successfully
+- [ ] Schema updated with Account model
+- [ ] Migration executed successfully
+- [ ] Prisma client generated
+- [ ] Data saved and visible in Adminer
 
 ---
 

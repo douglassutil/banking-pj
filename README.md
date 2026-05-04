@@ -21,6 +21,7 @@ Provide a minimal, predictable, runnable environment for students with limited e
 
 ```bash
 cp .env.example .env
+cp .env.example apps/backend/.env
 npm install
 ```
 

@@ -50,11 +50,15 @@ npm install
 
 ### 4) Copy environment variables
 
-Run this at the **root of the project** (not inside apps/):
+Run both commands at the **root of the project**:
 
 ```bash
 cp .env.example .env
+cp .env.example apps/backend/.env
 ```
+
+The first `.env` is used by Docker and global tooling.
+The second is used by NestJS and Prisma CLI when running inside `apps/backend/`.
 
 ### 5) Start the database
 

@@ -43,16 +43,16 @@ apps/frontend/src/App.tsx
 
 ### 2) Create state
 
-Create a state variable to store messages.
+Create a state variable to store accounts.
 
 ---
 
 ### 3) Fetch data from API
 
-Use fetch to call:
+Use fetch to call the accounts endpoint you built in earlier sprints:
 
 ```text
-http://localhost:3000/health
+http://localhost:3000/accounts
 ```
 
 ---
@@ -65,7 +65,8 @@ Fetch data when the component loads.
 
 ### 5) Render the data
 
-Display the list of messages on the screen.
+Display the list of accounts on the screen.
+Show at least the account `name` and `balance` for each item.
 
 ---
 

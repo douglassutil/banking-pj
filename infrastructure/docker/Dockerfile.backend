@@ -1,0 +1,7 @@
+FROM node:18
+WORKDIR /app
+COPY . .
+RUN npm install
+RUN npm run build --workspace=apps/backend
+WORKDIR /app/apps/backend
+CMD ["node", "dist/main.js"]
