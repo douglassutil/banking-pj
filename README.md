@@ -1,3 +1,9 @@
+> **You are on the `starter-react-beginner` branch — the beginner learning track.**
+> This is the recommended starting point for new developers.
+> The `main` branch is an advanced reference implementation and is NOT intended for beginners.
+
+---
+
 # starter-react-beginner
 
 Base project for the Beginner training track.

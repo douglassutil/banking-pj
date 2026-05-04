@@ -1,7 +1,20 @@
-FROM node:18
+# Stage 1: build
+FROM node:18 AS builder
+
 WORKDIR /app
 COPY . .
+
 RUN npm install
 RUN npm run build --workspace=apps/backend
-WORKDIR /app/apps/backend
-CMD ["node", "dist/main.js"]
+RUN npx prisma generate --schema=apps/backend/prisma/schema.prisma
+
+# Stage 2: production
+FROM node:18
+
+WORKDIR /app
+
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/apps/backend/dist ./dist
+COPY --from=builder /app/apps/backend/prisma ./prisma
+
+CMD ["sh", "-c", "npx prisma migrate deploy && node dist/main.js"]

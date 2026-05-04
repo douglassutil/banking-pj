@@ -50,42 +50,75 @@ npm run build
 
 ---
 
-### 3) Create Docker configuration (if not exists)
+### 3) Review Docker configuration
 
-Prepare Dockerfile(s) for backend and frontend.
+Dockerfiles are already prepared in this project:
 
----
+```
+infrastructure/docker/Dockerfile.backend
+infrastructure/docker/Dockerfile.frontend
+```
 
-### 4) Choose a deployment platform
-
-Examples:
-
-- Fly.io
-- Render
-- Railway
+Review them to understand what each step does.
 
 ---
 
-### 5) Deploy the backend
+### 4) Deploy with Fly.io (Step by Step)
 
-- Configure environment variables
-- Connect database
-- Deploy service
+Fly.io is recommended for beginners — it handles databases, secrets, and containers without complex configuration.
+
+**Install the Fly CLI:**
+
+```bash
+curl -L https://fly.io/install.sh | sh
+```
+
+**Login:**
+
+```bash
+fly auth login
+```
+
+**Create the app (run from project root):**
+
+```bash
+fly launch
+```
+
+Use the example configuration as a starting point:
+
+```
+infrastructure/fly.toml
+```
+
+**Set environment variables (secrets):**
+
+```bash
+fly secrets set DATABASE_URL="postgresql://..."
+fly secrets set NODE_ENV="production"
+fly secrets set CORS_ORIGIN="https://your-frontend-url"
+```
+
+**Deploy:**
+
+```bash
+fly deploy
+```
+
+**Run migrations in production:**
+
+```bash
+fly ssh console
+npx prisma migrate deploy
+```
 
 ---
 
-### 6) Deploy the frontend
+### 5) Test production
 
-- Configure API URL
-- Build and deploy
-
----
-
-### 7) Test production
-
-- Open the public URL
-- Create data
-- Verify data persistence
+- Open the public URL provided by Fly.io
+- Create data via the API
+- Verify data persists after page refresh
 
 ---
 

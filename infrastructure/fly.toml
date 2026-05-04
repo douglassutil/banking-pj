@@ -1,0 +1,23 @@
+# fly.toml — Example configuration for Fly.io deployment
+# Replace "your-app-name" with your actual app name from "fly launch"
+
+app = "your-app-name"
+primary_region = "gru"  # São Paulo — change to your nearest region
+
+[build]
+  dockerfile = "infrastructure/docker/Dockerfile.backend"
+
+[env]
+  PORT = "3000"
+  NODE_ENV = "production"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+
+[[vm]]
+  memory = "256mb"
+  cpu_kind = "shared"
+  cpus = 1
