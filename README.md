@@ -41,8 +41,14 @@ npm run dev:frontend   # 3. Start React frontend (port 5173)
 
 ---
 
-## Training
+## Learning Path — Source of Truth
 
-Follow the sprint sequence starting here:
+The official learning path is defined exclusively in:
 
-[docs/sprints/sprint-0-run-the-system.md](docs/sprints/sprint-0-run-the-system.md)
+**[docs/sprints/](docs/sprints/)**
+
+Do not use any other file as a step-by-step guide.
+
+Start here: [docs/sprints/sprint-0-run-the-system.md](docs/sprints/sprint-0-run-the-system.md)
+
+Full sprint order: [docs/sprints/README.md](docs/sprints/README.md)
