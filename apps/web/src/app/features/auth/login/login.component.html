@@ -1,0 +1,79 @@
+<!-- Bloco BEM raiz — centraliza o card na viewport via flex no SCSS -->
+<div class="login">
+  <h1 class="login__title">Entrar</h1>
+
+  <!--
+    [formGroup]: vincula este <form> ao FormGroup definido no componente.
+    (ngSubmit): dispara onSubmit() ao submeter (Enter ou clique no botão type="submit").
+  -->
+  <form class="login__form" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <!-- Campo e-mail -->
+    <div class="login__field">
+      <label class="login__label" for="email">E-mail</label>
+      <!--
+        formControlName: conecta o input ao FormControl 'email' dentro do FormGroup.
+        autocomplete: melhora UX e pontua bem em auditorias de acessibilidade.
+      -->
+      <input
+        class="login__input"
+        id="email"
+        type="email"
+        formControlName="email"
+        autocomplete="email"
+      />
+      <!--
+        invalid: o campo tem erro de validação (required ou email).
+        touched: o usuário interagiu e saiu do campo — evita mostrar erro antes da interação.
+        Ambas devem ser verdadeiras para exibir a mensagem.
+      -->
+      <span
+        class="login__error"
+        *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
+      >
+        E-mail inválido
+      </span>
+    </div>
+
+    <!-- Campo senha -->
+    <div class="login__field">
+      <label class="login__label" for="password">Senha</label>
+      <input
+        class="login__input"
+        id="password"
+        type="password"
+        formControlName="password"
+        autocomplete="current-password"
+      />
+      <span
+        class="login__error"
+        *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
+      >
+        Senha deve ter no mínimo 6 caracteres
+      </span>
+    </div>
+
+    <!--
+      [disabled]: desabilita o botão enquanto a requisição está em curso.
+      async pipe: subscreve isLoading$ e devolve o valor atual sem subscribe() manual.
+      Interpolação ternária: altera o label do botão durante o loading.
+    -->
+    <button
+      class="login__button"
+      type="submit"
+      [disabled]="isLoading$ | async"
+    >
+      {{ (isLoading$ | async) ? 'Entrando...' : 'Entrar' }}
+    </button>
+
+    <!--
+      *ngIf="error$ | async as error": só renderiza o bloco se houver erro,
+      atribuindo o valor do Observable à variável local 'error' para uso na interpolação.
+      login__error--api: modificador BEM com fundo colorido, diferente do erro de campo.
+    -->
+    <span class="login__error login__error--api" *ngIf="error$ | async as error">
+      {{ error }}
+    </span>
+
+  </form>
+</div>

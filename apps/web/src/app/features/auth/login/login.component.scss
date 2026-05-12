@@ -1,0 +1,102 @@
+// @use importa as variáveis globais com namespace isolado.
+// 'as v' cria o alias — variáveis são acessadas como v.$nome.
+// Caminho relativo ao arquivo deste componente.
+@use '../../../../styles/variables' as v;
+
+// Bloco BEM raiz. O & em cada elemento filho expande para .login__elemento.
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  // Ocupa a altura inteira da viewport — centraliza o card verticalmente.
+  min-height: 100vh;
+  background-color: v.$color-gray-50;
+  padding: v.$spacing-6;
+
+  &__title {
+    font-size: v.$font-size-2xl;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-gray-900;
+    margin-bottom: v.$spacing-8;
+  }
+
+  &__form {
+    width: 100%;
+    // Limita a largura do card — padrão de mercado para formulários de login.
+    max-width: 400px;
+    background-color: v.$color-white;
+    border-radius: v.$border-radius-lg;
+    padding: v.$spacing-8;
+    box-shadow: v.$shadow-md;
+    display: flex;
+    flex-direction: column;
+    // gap substitui margin entre campos — mais previsível com flex.
+    gap: v.$spacing-5;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    // Espaço mínimo entre label e input.
+    gap: v.$spacing-1;
+  }
+
+  &__label {
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-medium;
+    color: v.$color-gray-700;
+  }
+
+  &__input {
+    padding: v.$spacing-3 v.$spacing-4;
+    border: 1px solid v.$border-color;
+    border-radius: v.$border-radius-md;
+    font-size: v.$font-size-base;
+    color: v.$color-gray-900;
+    // Remove o outline padrão do browser — substituído pelo border colorido no :focus.
+    outline: none;
+    transition: border-color 0.2s;
+
+    // Pseudo-classe aninhada: SASS expande para .login__input:focus
+    &:focus {
+      border-color: v.$color-primary;
+    }
+  }
+
+  &__error {
+    font-size: v.$font-size-xs;
+    color: v.$color-danger;
+
+    // Modificador BEM para erro de API — diferente do erro de campo (sem fundo).
+    // SASS expande para .login__error--api
+    &--api {
+      text-align: center;
+      padding: v.$spacing-3;
+      background-color: v.$color-danger-light;
+      border-radius: v.$border-radius-md;
+    }
+  }
+
+  &__button {
+    padding: v.$spacing-3 v.$spacing-4;
+    background-color: v.$color-primary;
+    color: v.$color-white;
+    border: none;
+    border-radius: v.$border-radius-md;
+    font-size: v.$font-size-base;
+    font-weight: v.$font-weight-semibold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    // :not(:disabled) garante que hover não aplica durante o estado de loading.
+    &:hover:not(:disabled) {
+      background-color: v.$color-primary-dark;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+}

@@ -44,6 +44,7 @@ Para cada trecho de código a implementar, siga **sempre** esta sequência:
 ### O que NUNCA fazer
 - Nunca implementar código sem antes explicar o conceito
 - Nunca entregar um arquivo completo sem ter explicado cada parte antes
+- Nunca criar um `@Component` sem `standalone: false` como primeira propriedade — Angular 21 usa `standalone: true` como padrão, o que impede declaração em NgModules
 - Nunca criar um módulo Angular sem imediatamente registrá-lo no módulo pai — todo módulo precisa de um dono ou é código morto (ver tabela abaixo)
 - Nunca usar `inject()`, `computed()` ou `signal()` — não fazem parte do escopo de estudo
 - Nunca usar `standalone components` — usamos NgModules tradicionais
