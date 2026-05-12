@@ -53,6 +53,28 @@ Para cada trecho de código a implementar, siga **sempre** esta sequência:
 - Nunca pular para a próxima feature se a atual não tiver teste
 - Nunca corrigir um erro no arquivo diretamente sem que o aluno solicite — ao receber um erro: ler o arquivo, identificar a causa raiz, explicar o conceito por trás do erro, mostrar a solução em código e perguntar "Posso fazer essa alteração ou você prefere corrigir?"
 
+### Padrões obrigatórios com ES2022 (Angular 19+)
+
+O target ES2022 usa **native class fields** — inicializadores de propriedade rodam
+**antes** do corpo do construtor. Isso quebra dois padrões comuns:
+
+1. **Akita Query:** seletores `this.select()` devem ser inicializados no construtor,
+   após `super(store)` — nunca como class fields inline
+2. **Componentes Angular:** propriedades que dependem de serviços injetados
+   (`this.fb.group()`, `this.facade.isLoading$`) devem ser inicializadas no construtor
+
+```typescript
+// ❌ Quebra com ES2022
+readonly user$ = this.select(state => state.user);
+
+// ✅ Correto
+readonly user$: Observable<AuthUser | null>;
+constructor(protected override store: AuthStore) {
+  super(store);
+  this.user$ = this.select(state => state.user);
+}
+```
+
 ### Tabela de donos de módulos Angular
 
 | Tipo de módulo         | Quem importa                                      |

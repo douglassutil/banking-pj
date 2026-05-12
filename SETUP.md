@@ -427,6 +427,33 @@ export class AppModule {}
 > via `ConfigService` em vez de lê-las estaticamente no momento do import.
 > Isso garante que `.env` já foi carregado antes da conexão ser tentada.
 
+### Configurar `main.ts`
+
+Substitua o conteúdo gerado pelo NestJS por:
+
+```typescript
+import { ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+
+  // Prefixo global: todas as rotas ficam em /api/* (ex: /api/auth/login).
+  // Obrigatório para o proxy do Angular funcionar em desenvolvimento.
+  app.setGlobalPrefix('api');
+
+  await app.listen(process.env.PORT ?? 3000);
+}
+bootstrap();
+```
+
+> **Por que `setGlobalPrefix('api')`?** O proxy do Angular redireciona `/api/*`
+> para o backend. Sem o prefixo global, a rota seria `/auth/login` no backend,
+> mas o proxy encaminharia `/api/auth/login` → 404.
+
 ### Validar backend
 
 ```bash
@@ -445,7 +472,7 @@ Application is running on: http://[::1]:3000
 Se aparecer `ECONNREFUSED 127.0.0.1:5432`, o Docker não está rodando.
 Execute `docker compose up -d` na raiz do projeto.
 
-**Validação:** API responde em `http://localhost:3000` e logs mostram conexão com PostgreSQL.
+**Validação:** `curl http://localhost:3000/api` retorna resposta (pode ser 404, mas sem erro de conexão).
 
 ---
 
@@ -570,6 +597,36 @@ setupZoneTestEnv();
   }
 }
 ```
+
+### Limpar o template raiz
+
+O Angular gera um `app.html` com a página de boas-vindas padrão. Essa página
+aparece na tela independentemente das rotas configuradas. **Substitua todo o
+conteúdo** por apenas:
+
+```html
+<!-- Ponto de entrada do router — cada rota renderiza seu componente aqui -->
+<router-outlet />
+```
+
+E simplifique o `app.ts` gerado, removendo o `signal()` que não faz parte do escopo:
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  standalone: false,
+  selector: 'app-root',
+  templateUrl: './app.html',
+  styleUrl: './app.scss',
+})
+export class App {}
+```
+
+> **`standalone: false` obrigatório:** a partir do Angular 19, componentes são
+> `standalone: true` por padrão. Como este projeto usa NgModules, todo `@Component`
+> precisa declarar `standalone: false` explicitamente — caso contrário não pode
+> ser declarado em nenhum `NgModule`.
 
 ### Configurar proxy para o backend
 
@@ -823,6 +880,45 @@ brew services stop postgresql  # Mac
 ports:
   - "5433:5432"   # usar 5433 externamente
 # E atualizar DB_PORT=5433 no .env
+```
+
+### "Cannot read properties of undefined (reading '_select')" no Akita
+
+Ocorre quando seletores Akita são declarados como class fields inline com ES2022.
+Com Angular 19+, os inicializadores de propriedade rodam **antes** do `super(store)`,
+então o `_select` interno ainda não existe.
+
+**Solução:** sempre inicializar os seletores no construtor, após `super(store)`:
+
+```typescript
+// ❌ Errado — falha com ES2022
+readonly user$ = this.select(state => state.user);
+
+// ✅ Correto
+readonly user$: Observable<AuthUser | null>;
+
+constructor(protected override store: AuthStore) {
+  super(store); // inicializa o Akita
+  this.user$ = this.select(state => state.user); // só depois
+}
+```
+
+O mesmo vale para qualquer classe que use `this` de uma classe pai no inicializador:
+`FormGroup`, `Observable`, etc. Mover para o construtor resolve.
+
+### "Property 'fb' is used before its initialization" no Angular
+
+Mesmo problema do Akita: com ES2022, `form = this.fb.group({})` como class field
+roda antes de `this.fb` ser atribuído pelo construtor.
+
+**Solução:** inicializar `form`, `isLoading$` e similares no corpo do construtor:
+
+```typescript
+// ✅ Correto
+form: FormGroup;
+constructor(private fb: FormBuilder) {
+  this.form = this.fb.group({ ... });
+}
 ```
 
 ### "password authentication failed for user banking_user"

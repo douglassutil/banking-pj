@@ -30,8 +30,9 @@ export class AuthFacade {
 
     this.service.login(email, password).subscribe({
       next: (response) => {
-        // Grava o usuário no estado e redireciona para o dashboard
-        this.store.update({ user: response.user });
+        // Grava token E usuário — ambos são necessários.
+        // Sem o token no store, o TokenInterceptor sempre lê null e nunca injeta o header.
+        this.store.update({ token: response.accessToken, user: response.user });
         this.store.setLoading(false);
         this.router.navigate(['/dashboard']);
       },

@@ -10,6 +10,10 @@ async function bootstrap() {
   // whitelist: true remove campos não declarados no DTO — protege contra mass assignment.
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
+  // Prefixo global: todas as rotas ficam em /api/* (ex: /api/auth/login, /api/cards).
+  // Alinha com o padrão de mercado e com o proxy do Angular em desenvolvimento.
+  app.setGlobalPrefix('api');
+
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

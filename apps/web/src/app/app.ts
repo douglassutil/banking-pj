@@ -1,11 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 
+// Componente raiz da aplicação — apenas provê o <router-outlet> no template.
+// Não contém lógica: toda navegação é gerenciada pelo AppRoutingModule.
 @Component({
+  standalone: false,
   selector: 'app-root',
   templateUrl: './app.html',
-  standalone: false,
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
-export class App {
-  protected readonly title = signal('web');
-}
+export class App {}
