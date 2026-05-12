@@ -56,10 +56,12 @@ o frontend armazena e envia o token em cada requisição.
 - [x] `AuthService` no `CoreModule`: chama `POST /api/auth/login`
 - [x] `AuthStore` + `AuthQuery` (Akita): armazena `{ token, user, isLoading, error }`
 - [x] `AuthFacade`: interface pública entre componentes e estado
-- [ ] Interceptor HTTP (`TokenInterceptor`): injeta `Authorization: Bearer <token>`
-- [ ] `AuthGuard`: redireciona para `/login` se não autenticado
-- [ ] `RoleGuard`: redireciona se perfil insuficiente
-- [ ] Componente `LoginComponent`: formulário com validação reativa
+- [x] Interceptor HTTP (`TokenInterceptor`): injeta `Authorization: Bearer <token>`
+- [x] `AuthGuard`: redireciona para `/login` se não autenticado
+- [x] `RoleGuard`: redireciona se perfil insuficiente
+- [x] Componente `LoginComponent`: formulário com validação reativa
+- [x] `AuthModule`: feature module com lazy loading via `AppRoutingModule`
+- [x] Fluxo end-to-end validado: login retorna JWT, token salvo no store, proxy funcionando
 - [ ] Spec: `AuthFacade` — login com sucesso, login com erro
 
 ---
