@@ -54,8 +54,8 @@ o frontend armazena e envia o token em cada requisição.
 
 - [x] `CoreModule` criado com `provideHttpClient()`
 - [x] `AuthService` no `CoreModule`: chama `POST /api/auth/login`
-- [ ] `AuthStore` + `AuthQuery` (Akita): armazena `{ token, user, isLoading, error }`
-- [ ] `AuthFacade`: interface pública entre componentes e estado
+- [x] `AuthStore` + `AuthQuery` (Akita): armazena `{ token, user, isLoading, error }`
+- [x] `AuthFacade`: interface pública entre componentes e estado
 - [ ] Interceptor HTTP (`TokenInterceptor`): injeta `Authorization: Bearer <token>`
 - [ ] `AuthGuard`: redireciona para `/login` se não autenticado
 - [ ] `RoleGuard`: redireciona se perfil insuficiente

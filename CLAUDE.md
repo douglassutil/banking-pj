@@ -44,12 +44,22 @@ Para cada trecho de código a implementar, siga **sempre** esta sequência:
 ### O que NUNCA fazer
 - Nunca implementar código sem antes explicar o conceito
 - Nunca entregar um arquivo completo sem ter explicado cada parte antes
+- Nunca criar um módulo Angular sem imediatamente registrá-lo no módulo pai — todo módulo precisa de um dono ou é código morto (ver tabela abaixo)
 - Nunca usar `inject()`, `computed()` ou `signal()` — não fazem parte do escopo de estudo
 - Nunca usar `standalone components` — usamos NgModules tradicionais
 - Nunca criar arquivo sem antes descrever o que ele fará
 - Nunca resolver um erro sem explicar a causa raiz
 - Nunca pular para a próxima feature se a atual não tiver teste
 - Nunca corrigir um erro no arquivo diretamente sem que o aluno solicite — ao receber um erro: ler o arquivo, identificar a causa raiz, explicar o conceito por trás do erro, mostrar a solução em código e perguntar "Posso fazer essa alteração ou você prefere corrigir?"
+
+### Tabela de donos de módulos Angular
+
+| Tipo de módulo         | Quem importa                                      |
+|------------------------|---------------------------------------------------|
+| `CoreModule`           | `AppModule` — uma única vez                       |
+| `SharedModule`         | Feature modules que precisam de componentes compartilhados |
+| Feature module (eager) | `AppModule` ou outro feature module               |
+| Feature module (lazy)  | `AppRoutingModule` via `loadChildren`             |
 
 ### Quando eu perguntar "por que?"
 Responda com: conceito → impacto prático → exemplo no projeto → conexão com a vaga.
