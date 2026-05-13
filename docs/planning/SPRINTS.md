@@ -70,13 +70,18 @@ o frontend armazena e envia o token em cada requisição.
 
 **Objetivo:** listagem e detalhes de cartões com filtro por perfil.
 
-- [ ] Entidade `Card` com campos: id, lastFourDigits, status, type, cardholderName, companyId
-- [ ] `CardsModule` backend: CRUD + filtro por companyId/userId
+- [x] Entidade `Card` — campos, enums, updatedAt para auditoria
+- [x] `@CurrentUser()` decorator + interface `AuthUser` (apps/api/src/auth/)
+- [x] `CardsService` — filtro por companyId (ADMIN) e cardholderEmail (CARDHOLDER)
+- [x] `CardsController` — GET /cards protegido por JWT
+- [x] `CardsModule` — registrado no AppModule
+- [ ] Seed de cartões ← PRÓXIMO
+- [ ] `PATCH /cards/:id/block` — regra de bloqueio com BusinessRuleException
+- [ ] `PATCH /cards/:id/unblock`
+- [ ] Spec: regra de bloqueio (CARDHOLDER só bloqueia o próprio cartão)
 - [ ] `CardsStore` + `CardsQuery` + `CardsFacade` (Akita)
 - [ ] `CardListPageComponent`: lista com status badge e skeleton loader
 - [ ] `CardItemComponent` (Dumb): exibe um cartão com OnPush
-- [ ] Bloquear/desbloquear cartão: regra de negócio no backend
-- [ ] Spec: regra de bloqueio (CARDHOLDER só bloqueia o próprio cartão)
 
 ---
 
