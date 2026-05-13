@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { DatabaseModule } from './database/database.module';
+import { CardsModule } from './cards/cards.module';
 
 @Module({
   imports: [
@@ -12,11 +13,13 @@ import { DatabaseModule } from './database/database.module';
     // sem precisar reimportar o ConfigModule em cada um
     ConfigModule.forRoot({ isGlobal: true }),
 
-    // Registra o módulo de autenticação — disponibiliza POST /auth/login
-    AuthModule,
-
     // DatabaseModule: executa o seed de usuários na inicialização (apenas em desenvolvimento)
     DatabaseModule,
+
+    // Feature modules — cada domínio registra seus próprios controllers e services.
+    // Adicionar novos módulos aqui à medida que os sprints avançam.
+    AuthModule,
+    CardsModule,
 
     // forRootAsync: lê as variáveis via ConfigService, garantindo que o .env
     // foi carregado antes de a conexão ser tentada
