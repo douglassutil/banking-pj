@@ -25,6 +25,12 @@ const config: Config = {
     '^@banking-pj/shared-types(.*)$':
       '<rootDir>/../../libs/shared-types/src$1',
   },
+  // Akita usa ESM (export * from ...) e Angular distribui .mjs — ambos precisam
+  // ser transformados. Definir transformIgnorePatterns substitui o padrão do
+  // preset, então as duas exceções devem estar no mesmo lookahead negativo.
+  transformIgnorePatterns: [
+    '/node_modules/(?!(@datorama/akita|.*\\.mjs$))/',
+  ],
 };
 
 export default config;

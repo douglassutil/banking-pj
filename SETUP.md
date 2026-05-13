@@ -927,3 +927,34 @@ O volume do Docker tem dados de uma configuração anterior.
 docker compose down -v   # apaga o volume com os dados antigos
 docker compose up -d     # recria tudo do zero
 ```
+
+### "SyntaxError: Unexpected token 'export'" no Akita ao rodar Jest
+
+O `@datorama/akita` é distribuído em ESM (`export * from ...`). O Jest, por padrão,
+não transforma `node_modules`, então não consegue ler esse formato.
+
+**Solução:** adicionar `transformIgnorePatterns` no `jest.config.ts` com uma exceção
+para o Akita. **Atenção:** ao definir essa propriedade, o padrão do `jest-preset-angular`
+que trata arquivos `.mjs` do Angular é **substituído** — as duas exceções precisam
+estar no mesmo padrão:
+
+```typescript
+// jest.config.ts
+transformIgnorePatterns: [
+  '/node_modules/(?!(@datorama/akita|.*\\.mjs$))/',
+],
+```
+
+O lookahead negativo `(?!...)` significa "ignore node_modules, **exceto**":
+- `@datorama/akita` — pacote ESM que precisa ser compilado
+- `.*\.mjs$` — arquivos `.mjs` do Angular e de outras libs
+
+**Erro comum:** definir apenas `(?!(@datorama/akita)/)` sem o `.*\.mjs$` corrige o
+Akita mas quebra o Angular, que distribui seu core como `core.mjs`.
+
+### "SyntaxError: Cannot use import statement outside a module" no Angular ao rodar Jest
+
+Causado pelo mesmo problema acima: o `jest.config.ts` tinha um `transformIgnorePatterns`
+que excluía apenas o Akita, esquecendo os arquivos `.mjs` do Angular.
+
+A solução é idêntica — usar o padrão combinado descrito acima.
