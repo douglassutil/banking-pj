@@ -31,7 +31,7 @@
 
 ---
 
-## Sprint 2 — Autenticação ← EM ANDAMENTO
+## Sprint 2 — Autenticação ✅ CONCLUÍDA
 
 **Objetivo:** implementar o fluxo completo de login JWT, do banco ao browser.
 
@@ -62,11 +62,11 @@ o frontend armazena e envia o token em cada requisição.
 - [x] Componente `LoginComponent`: formulário com validação reativa
 - [x] `AuthModule`: feature module com lazy loading via `AppRoutingModule`
 - [x] Fluxo end-to-end validado: login retorna JWT, token salvo no store, proxy funcionando
-- [ ] Spec: `AuthFacade` — login com sucesso, login com erro
+- [x] Spec: `AuthFacade` — login com sucesso, login com erro
 
 ---
 
-## Sprint 3 — Cards (planejada)
+## Sprint 3 — Cards ← EM ANDAMENTO
 
 **Objetivo:** listagem e detalhes de cartões com filtro por perfil.
 
