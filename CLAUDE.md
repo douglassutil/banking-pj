@@ -52,6 +52,52 @@ Para cada trecho de código a implementar, siga **sempre** esta sequência:
 - Nunca resolver um erro sem explicar a causa raiz
 - Nunca pular para a próxima feature se a atual não tiver teste
 - Nunca corrigir um erro no arquivo diretamente sem que o aluno solicite — ao receber um erro: ler o arquivo, identificar a causa raiz, explicar o conceito por trás do erro, mostrar a solução em código e perguntar "Posso fazer essa alteração ou você prefere corrigir?"
+- **Nunca ensinar `@Req() req: any` em controllers NestJS** — sempre ensinar `@CurrentUser()` desde a primeira implementação de controller autenticado. O `@Req() req: any` perde type safety e acopla o controller ao Express. Ver padrão abaixo.
+- **Nunca importar uma interface com `import` comum em parâmetros decorados** quando `emitDecoratorMetadata: true` estiver ativo — usar `import type`. Ver padrão abaixo.
+
+### Padrões obrigatórios em controllers NestJS autenticados
+
+Todo controller que usa JWT deve seguir este padrão desde o início — não introduzir
+`@Req() req: any` e migrar depois:
+
+**1. Criar o decorator `@CurrentUser()` antes do primeiro controller autenticado**
+
+```typescript
+// apps/api/src/auth/current-user.decorator.ts
+import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+
+export interface AuthUser {
+  id: string; email: string; role: string; companyId: string;
+}
+
+export const CurrentUser = createParamDecorator(
+  (_data: unknown, ctx: ExecutionContext): AuthUser =>
+    ctx.switchToHttp().getRequest().user,
+);
+```
+
+**2. Importar a interface com `import type` em controllers**
+
+Com `emitDecoratorMetadata: true` no NestJS, interfaces usadas em parâmetros decorados
+devem ser importadas com `import type` — caso contrário o compilador lança o erro TS1272:
+
+```typescript
+// ❌ Erro TS1272 com emitDecoratorMetadata
+import { AuthUser, CurrentUser } from '../auth/current-user.decorator';
+
+// ✅ Correto — AuthUser é tipo (apagado em runtime), CurrentUser é valor (mantido)
+import type { AuthUser } from '../auth/current-user.decorator';
+import { CurrentUser } from '../auth/current-user.decorator';
+```
+
+**3. Uso no controller**
+
+```typescript
+@Get()
+findAll(@CurrentUser() user: AuthUser): Promise<Card[]> {
+  return this.service.findAll(user.companyId, user.role, user.email);
+}
+```
 
 ### Padrões obrigatórios com ES2022 (Angular 19+)
 

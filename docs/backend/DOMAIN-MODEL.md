@@ -43,6 +43,12 @@ Representa um cartão corporativo — físico ou virtual — associado a um port
 | cardholderEmail | string     | not null       | Email do portador (FK lógica)          |
 | companyId       | uuid       | not null       | Empresa dona do cartão                 |
 | createdAt       | timestamp  | auto           |                                        |
+| updatedAt       | timestamp  | auto           | Atualizado em toda operação de status  |
+
+**Por que `updatedAt` no Card?** O campo `status` é mutável — bloqueio e desbloqueio
+alteram seu valor. `updatedAt` fornece rastreabilidade mínima: *quando* foi a última
+operação. Não substitui um audit log completo, mas é o piso de auditoria para entidades
+com estado mutável em contextos regulados.
 
 **Regras:**
 - CARDHOLDER só pode bloquear/desbloquear o próprio cartão

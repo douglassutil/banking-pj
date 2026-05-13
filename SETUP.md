@@ -959,6 +959,32 @@ que excluía apenas o Akita, esquecendo os arquivos `.mjs` do Angular.
 
 A solução é idêntica — usar o padrão combinado descrito acima.
 
+### TS1272 — "A type referenced in a decorated signature must be imported with 'import type'"
+
+Ocorre quando uma **interface** TypeScript é usada como tipo de um parâmetro decorado
+(ex: `@CurrentUser() user: AuthUser`) e o `tsconfig.json` tem `emitDecoratorMetadata: true`.
+
+**Por quê:** com `emitDecoratorMetadata`, o TypeScript emite metadados de runtime sobre
+os tipos dos parâmetros decorados. Interfaces não existem em runtime — são apagadas na
+transpilação. O compilador não consegue emitir metadados de algo que não existirá.
+
+**Solução:** usar `import type` para a interface e `import` normal para o decorator:
+
+```typescript
+// ❌ Erro TS1272
+import { AuthUser, CurrentUser } from '../auth/current-user.decorator';
+
+// ✅ Correto
+import type { AuthUser } from '../auth/current-user.decorator';
+import { CurrentUser } from '../auth/current-user.decorator';
+```
+
+`import type` instrui o TypeScript a usar o símbolo apenas para checagem de tipos
+e apagá-lo completamente na transpilação — sem tentar emitir metadados de runtime.
+
+**Quando isso aparece:** sempre que uma interface for usada como tipo de parâmetro
+decorado (`@Body()`, `@Param()`, `@CurrentUser()`, etc.) em projetos NestJS.
+
 ### Extensão vscode-jest (Orta Therox) não mostra testes do frontend / usa Babel em vez de ts-jest
 
 **Sintoma:** a extensão mostra erros como `Missing semicolon` em código TypeScript válido,
