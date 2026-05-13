@@ -958,3 +958,64 @@ Causado pelo mesmo problema acima: o `jest.config.ts` tinha um `transformIgnoreP
 que excluía apenas o Akita, esquecendo os arquivos `.mjs` do Angular.
 
 A solução é idêntica — usar o padrão combinado descrito acima.
+
+### Extensão vscode-jest (Orta Therox) não mostra testes do frontend / usa Babel em vez de ts-jest
+
+**Sintoma:** a extensão mostra erros como `Missing semicolon` em código TypeScript válido,
+ou `Cannot use import statement outside a module` — mesmo que `npx jest` funcione no terminal.
+
+**Causa:** a extensão executa Jest a partir da raiz do workspace (`banking-pj/`).
+Sem um `jest.config.ts` na raiz, o Jest não encontra o `jest-preset-angular`
+e cai no Babel como transformador padrão. O `@babel/core` existe no monorepo por
+ser dependência do `@nestjs/cli`, então o Jest o usa silenciosamente.
+
+**O que NÃO funciona:**
+- `jest.rootPath` no `.vscode/settings.json` — funciona apenas para um projeto
+- `jest.projects` com `jestCommandLine` no `.vscode/settings.json` — a extensão
+  ignora o `rootPath` e continua executando da raiz; o `--config jest.config.ts`
+  relativo não resolve o arquivo correto
+
+**Solução definitiva:** criar um `jest.config.ts` na raiz do monorepo usando
+o mecanismo nativo de projetos múltiplos do Jest:
+
+```typescript
+// jest.config.ts (raiz do monorepo)
+import type { Config } from 'jest';
+
+const config: Config = {
+  projects: [
+    '<rootDir>/apps/api',
+    '<rootDir>/apps/web',
+  ],
+};
+
+export default config;
+```
+
+O Jest delega automaticamente para o `jest.config.ts` de cada app — cada um
+com seu próprio transformer (`ts-jest` para a API, `jest-preset-angular` para o web).
+O `.vscode/settings.json` precisa apenas de `"jest.autoRun": "off"`.
+
+**Pré-requisito:** cada app precisa ter seu próprio `jest.config.ts` separado
+(não dentro do `package.json`). O `apps/api` do NestJS gerado pelo CLI coloca a
+config dentro do `package.json` — extraia para `apps/api/jest.config.ts`:
+
+```typescript
+// apps/api/jest.config.ts
+import type { Config } from 'jest';
+
+const config: Config = {
+  moduleFileExtensions: ['js', 'json', 'ts'],
+  rootDir: 'src',
+  testRegex: '.*\\.spec\\.ts$',
+  transform: { '^.+\\.(t|j)s$': 'ts-jest' },
+  collectCoverageFrom: ['**/*.(t|j)s'],
+  coverageDirectory: '../coverage',
+  testEnvironment: 'node',
+};
+
+export default config;
+```
+
+Após criar o `jest.config.ts` raiz, faça `Ctrl+Shift+P` →
+**Developer: Reload Window** no VS Code.
