@@ -75,8 +75,8 @@ o frontend armazena e envia o token em cada requisição.
 - [x] `CardsService` — filtro por companyId (ADMIN) e cardholderEmail (CARDHOLDER)
 - [x] `CardsController` — GET /cards protegido por JWT
 - [x] `CardsModule` — registrado no AppModule
-- [ ] Seed de cartões ← PRÓXIMO
-- [ ] `PATCH /cards/:id/block` — regra de bloqueio com BusinessRuleException
+- [x] Seed de cartões
+- [ ] `PATCH /cards/:id/block` — regra de bloqueio com BusinessRuleException ← PRÓXIMO
 - [ ] `PATCH /cards/:id/unblock`
 - [ ] Spec: regra de bloqueio (CARDHOLDER só bloqueia o próprio cartão)
 - [ ] `CardsStore` + `CardsQuery` + `CardsFacade` (Akita)
